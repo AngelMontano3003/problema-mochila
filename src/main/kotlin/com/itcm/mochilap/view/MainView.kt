@@ -24,7 +24,6 @@ fun MainView() {
             .fillMaxSize()
             .padding(16.dp)
     ) {
-        // Título
         Text(
             text = "Problema de la mochila",
             fontSize = 28.sp,
@@ -34,7 +33,6 @@ fun MainView() {
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        // Formulario a rellenar
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween
@@ -47,8 +45,8 @@ fun MainView() {
                 TextField(value = value, onValueChange = { value = it }, label = { Text("Valor") })
                 Spacer(modifier = Modifier.height(8.dp))
                 Button(onClick = {
-                    val w = weight.toIntOrNull()
-                    val v = value.toIntOrNull()
+                    val w = weight.toDoubleOrNull()
+                    val v = value.toDoubleOrNull()
                     if (name.isNotBlank() && w != null && v != null) {
                         viewModel.addItem(name, w, v)
                         name = ""
@@ -68,13 +66,14 @@ fun MainView() {
             ) {
                 TextField(
                     value = viewModel.maxWeight.value.toString(),
-                    onValueChange = { viewModel.maxWeight.value = it.toIntOrNull() ?: 0 },
+                    onValueChange = {
+                        viewModel.maxWeight.value = it.toDoubleOrNull() ?: 0.0
+                    },
                     label = { Text("Capacidad máxima de la mochila") },
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 Button(onClick = { viewModel.solveKnapsack() }) {
                     Text("Resolver mochila")
-
                 }
             }
         }
@@ -85,7 +84,6 @@ fun MainView() {
             modifier = Modifier.fillMaxSize(),
             horizontalArrangement = Arrangement.SpaceEvenly
         ) {
-            // Elementos agregados
             Column(
                 modifier = Modifier.weight(1f),
                 horizontalAlignment = Alignment.CenterHorizontally
@@ -95,14 +93,11 @@ fun MainView() {
                 LazyColumn {
                     items(viewModel.items.size) { index ->
                         val item = viewModel.items[index]
-                        item?.let {
-                            Text("- ${it.name} (Peso: ${it.weight}, Valor: ${it.value})")
-                        }
+                        Text("- ${item.name} (Peso: ${item.weight}, Valor: ${item.value})")
                     }
                 }
             }
 
-            // Solución
             Column(
                 modifier = Modifier.weight(1f),
                 horizontalAlignment = Alignment.CenterHorizontally
@@ -112,9 +107,9 @@ fun MainView() {
                 LazyColumn {
                     items(viewModel.result.size) { index ->
                         val item = viewModel.result[index]
-                        item?.let {
-                            Text("- ${it.name} (Peso: ${it.weight}, Valor: ${it.value})")
-                        }
+                        Text("- ${item.name} (Peso: ${"%.2f".format(item.weight * item.fraction)}, " +
+                                "Valor: ${"%.2f".format(item.value * item.fraction)}, " +
+                                "Fracción: ${"%.2f".format(item.fraction)})")
                     }
                 }
             }

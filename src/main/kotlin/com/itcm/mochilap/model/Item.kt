@@ -2,6 +2,7 @@ package com.itcm.mochilap.model
 
 data class Item(
     val name: String,
-    val weight: Int,
-    val value: Int
+    val weight: Double,
+    val value: Double,
+    val fraction: Double = 1.0
 )
