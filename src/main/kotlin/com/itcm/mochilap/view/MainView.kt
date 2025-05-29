@@ -112,6 +112,13 @@ fun MainView() {
                                 "Fracción: ${"%.2f".format(item.fraction)})")
                     }
                 }
+                Spacer(modifier = Modifier.height(16.dp))
+                Text(
+                    "Valor total: ${"%.2f".format(viewModel.totalValue.value)}",
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.SemiBold
+                )
+
             }
         }
     }

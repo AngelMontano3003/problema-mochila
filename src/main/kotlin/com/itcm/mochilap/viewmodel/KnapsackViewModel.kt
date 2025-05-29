@@ -10,6 +10,8 @@ class KnapsackViewModel {
     val maxWeight = mutableStateOf(0.0)
     val result = mutableStateListOf<Item>()
 
+    val totalValue = mutableStateOf(0.0)
+
     fun addItem(name: String, weight: Double, value: Double) {
         items.add(Item(name, weight, value))
     }
@@ -17,5 +19,6 @@ class KnapsackViewModel {
     fun solveKnapsack() {
         result.clear()
         result.addAll(fractionalKnapsack(items.toList(), maxWeight.value))
+        totalValue.value = result.sumOf{it.value* it.fraction}
     }
 }

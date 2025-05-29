@@ -1,7 +1,8 @@
 package com.itcm.mochilap.model
 
 fun fractionalKnapsack(items: List<Item>, maxWeight: Double): List<Item> {
-    val sortedItems = items.sortedByDescending { it.value / it.weight }
+    val sortedItems = items.sortedWith(compareByDescending<Item> { it.value / it.weight }
+        .thenBy { it.weight })
     val result = mutableListOf<Item>()
     var currentWeight = 0.0
 
